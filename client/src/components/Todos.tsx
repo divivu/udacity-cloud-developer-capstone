@@ -160,10 +160,10 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
       <Grid.Row>
         <Grid.Column width={16}>
           <Button onClick={() => this.sortTodoByDueDate('DESC')}>
-            Sort by Due date DESC
+            Sort by Farthest Due date
           </Button>
           <Button onClick={() => this.sortTodoByDueDate('ASC')}>
-            Sort by Due date ASC
+            Sort by Nearest Due date
           </Button>
         </Grid.Column>
         <Grid.Column width={16}>

@@ -1,10 +1,7 @@
 import 'source-map-support/register'
 import { APIGatewayProxyHandler, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { getTodosForUser as getTodosForUser } from '../../helpers/todos'
-import { getUserId, getSortOrder } from '../utils';
-
-// import { createLogger } from '../../utils/logger'
-// const logger = createLogger('Delete TODO')
+import { getUserId } from '../utils';
 
 /**
  * Get all TODOitems for a current user
@@ -12,10 +9,7 @@ import { getUserId, getSortOrder } from '../utils';
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     // Write your code here
   const userId = getUserId(event)
-  //        @todo-div - Start Update this later
-  const sortOrder = getSortOrder(event);
-  const todos = await getTodosForUser(userId, sortOrder);
-  //        @todo-div - End Update this later
+  const todos = await getTodosForUser(userId);
 
   // Send results
   return {
