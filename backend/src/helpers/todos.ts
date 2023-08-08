@@ -10,12 +10,23 @@ import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 const todoAccess = new TodosAccess()
 const logger = createLogger('createTodo')
 
+//        @todo - div - Start Update this later
 export async function getTodosForUser(userId: string, sortOrder: string = null): Promise<TodoItem[]> {
   logger.info(`getTodosForUser - sortOrder: ${sortOrder}`)
   if (sortOrder) {
     return todoAccess.getTodosSortedByDueDate(userId, sortOrder)
   }
   return todoAccess.getTodos(userId)
+}
+
+// export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
+//   logger.info(`getTodosForUser ID: ${userId}`)
+//   return todoAccess.getTodos(userId)
+// }
+//        @todo - div - End Update this later
+
+export async function getTodosSortedByDueDate(userId: string, sortOrder: string) {
+  return todoAccess.getTodosSortedByDueDate(userId, sortOrder)
 }
 
 export async function updateTodo(todoId: string, userId: string, updatedTodo: UpdateTodoRequest): Promise<void> {

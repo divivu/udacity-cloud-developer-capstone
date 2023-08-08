@@ -12,6 +12,22 @@ export async function getTodos(idToken: string, sort: string = 'ASC'): Promise<T
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
     },
+    //@todo-div - remove later
+    params: {
+      'sort': sort
+    },
+  })
+  return response.data.items
+}
+
+export async function getTodosSortedByDueDate(idToken: string, sort: string = 'ASC'): Promise<Todo[]> {
+  console.log('Fetching todos')
+
+  const response = await Axios.get(`${apiEndpoint}/todosSortByDue`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
     params: {
       'sort': sort
     },

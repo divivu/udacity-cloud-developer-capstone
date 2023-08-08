@@ -14,7 +14,7 @@ import {
   Loader
 } from 'semantic-ui-react'
 
-import { createTodo, deleteTodo, getTodos, patchTodo } from '../api/todos-api'
+import { createTodo, deleteTodo, getTodos, getTodosSortedByDueDate, patchTodo } from '../api/todos-api'
 import Auth from '../auth/Auth'
 import { Todo } from '../types/Todo'
 
@@ -42,7 +42,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
 
   sortTodoByDueDate = async (order: string = 'ASC') => {
     try {
-      const todos = await getTodos(this.props.auth.getIdToken(), order)
+      const todos = await getTodosSortedByDueDate(this.props.auth.getIdToken(), order)
       this.setState({
         todos,
         loadingTodos: false
