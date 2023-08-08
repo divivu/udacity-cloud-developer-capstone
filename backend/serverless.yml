@@ -64,12 +64,6 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_ITEM_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
-#        @todo - div - Start Remove this later
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_ITEM_TABLE}/index/${self:provider.environment.TODOS_DUE_DATE_INDEX}
-#        @todo - div - End Remove this later
 
   GetTodosByDueDate:
     handler: src/lambda/http/getTodosSortByDueDate.handler
