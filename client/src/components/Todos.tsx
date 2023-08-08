@@ -26,6 +26,7 @@ interface TodosProps {
 interface TodosState {
   todos: Todo[]
   newTodoName: string
+  attachmentUrl: string
   loadingTodos: boolean
 }
 
@@ -33,6 +34,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
   state: TodosState = {
     todos: [],
     newTodoName: '',
+    attachmentUrl: '',
     loadingTodos: true
   }
 
@@ -110,7 +112,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
       await deleteTodoImage(this.props.auth.getIdToken(), todo.todoId, todo.attachmentUrl)
       this.setState({
         todos: update(this.state.todos, {
-          [pos]: { done: { $set: todo.done } }
+          [pos]: { attachmentUrl: { $set: '' } }
         })
       })
     } catch (e) {
