@@ -14,7 +14,7 @@ import {
   Loader
 } from 'semantic-ui-react'
 
-import { createTodo, deleteTodo, getTodos, getTodosSortedByDueDate, patchTodo } from '../api/todos-api'
+import { createTodo, deleteTodo, deleteTodoImage, getTodos, getTodosSortedByDueDate, patchTodo } from '../api/todos-api'
 import Auth from '../auth/Auth'
 import { Todo } from '../types/Todo'
 
@@ -101,6 +101,20 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
       })
     } catch {
       alert('Todo deletion failed')
+    }
+  }
+
+  onTodoRemoveImage = async (pos: number) => {
+    try {
+      const todo = this.state.todos[pos]
+      await deleteTodoImage(this.props.auth.getIdToken(), todo.todoId, todo.attachmentUrl)
+      this.setState({
+        todos: update(this.state.todos, {
+          [pos]: { done: { $set: todo.done } }
+        })
+      })
+    } catch (e) {
+      alert(`Todo remove image failed. ${(e as Error).message}`)
     }
   }
 
@@ -198,7 +212,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
           return (
             <Grid.Row key={todo.todoId}>
               <Grid.Column width={1} verticalAlign="middle">
-                <Checkbox
+                <Checkbox label={'done'}
                   onChange={() => this.onTodoCheck(pos)}
                   checked={todo.done}
                 />
@@ -229,6 +243,11 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
               </Grid.Column>
               {todo.attachmentUrl && (
                 <Image src={todo.attachmentUrl} size="small" wrapped />
+              )}
+              {todo.attachmentUrl && (
+                <Grid.Column width={1} verticalAlign="bottom">
+                    <a href={'#'} onClick={() => this.onTodoRemoveImage(pos)}>( X ) remove</a>
+                </Grid.Column>
               )}
               <Grid.Column width={16}>
                 <Divider />

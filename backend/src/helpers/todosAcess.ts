@@ -116,4 +116,19 @@ export class TodosAccess {
       }
     }).promise();
   }
+
+  async removeTodoAttachmentUrl(todoId: string, userId: string){
+    logger.info(`remove image for todoId ${todoId}`)
+    await this.docClient.update({
+      TableName: this.todoTable,
+      Key: {
+        todoId,
+        userId
+      },
+      UpdateExpression: "set attachmentUrl = :attachmentUrl",
+      ExpressionAttributeValues: {
+        ":attachmentUrl": ''
+      }
+    }).promise();
+  }
 }

@@ -159,6 +159,27 @@ functions:
         Resource:
           - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_ITEM_TABLE}
 
+  deleteUploadedImage:
+    handler: src/lambda/http/deleteUploadedImage.handler
+    events:
+      - http:
+          method: patch
+          path: todos/{todoId}/deleteAttachment
+          cors: true
+          authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:DeleteObject
+        Resource:
+          - arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
+      - Effect: Allow
+        Action:
+          - dynamodb:updateItem
+        Resource:
+          - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_ITEM_TABLE}
+
 resources:
   Resources:
     GatewayResponseDefault4XX:
